@@ -1,0 +1,174 @@
+:root {
+	--font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	--font-display: 'Poppins', var(--font-sans);
+	--primary: #6C63FF;
+	--secondary: #00C2A8;
+	--accent: #FF6B8A;
+	--glass-bg: rgba(255,255,255,0.65);
+}
+
+:/* Palette variants */
+:root[data-theme="alt1"] {
+	--primary: #00C2A8;
+	--secondary: #6C63FF;
+	--accent: #FF8A00;
+	background: linear-gradient(180deg,#F7FFFB 0%, #F0FCF9 40%, #EAFBF6 100%);
+}
+
+:root[data-theme="alt2"] {
+	--primary: #FF6B8A;
+	--secondary: #6C63FF;
+	--accent: #00C2A8;
+	background: linear-gradient(180deg,#FFF7FB 0%, #FFF0F6 40%, #FFF0F3 100%);
+}
+
+html, body, #root {
+	height: 100%;
+}
+
+body {
+	font-family: var(--font-sans);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	background: linear-gradient(180deg,#FBFBFF 0%, #F3F6FF 40%, #EFF6FF 100%);
+	color: #0f172a;
+}
+
+/* Respect reduced-motion user preference */
+@media (prefers-reduced-motion: reduce) {
+	.float-slow, .btn-animated.animated, .hero-blob, .shimmer, .card-hover:hover, .soft-elevate {
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+/* Use Poppins for large headings */
+h1, h2, h3, h4, .display-font {
+	font-family: var(--font-display);
+}
+
+.glass-card {
+	background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
+	border: 1px solid rgba(124, 123, 255, 0.12);
+	backdrop-filter: blur(8px) saturate(120%);
+}
+
+/* ensure cards sit above decorative elements */
+.glass-card { position: relative; z-index: 12; }
+
+.hero-illustration { z-index: 10; position: relative; }
+
+.lottie-wrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.lottie-wrap > div { width: 100%; height: 100%; }
+
+
+/* decorative blobs sit behind content and don't capture pointer events */
+/* Decorative hero blobs removed to avoid overlapping issues. */
+
+@keyframes float {
+	0% { transform: translateY(0) scale(1); }
+	50% { transform: translateY(-18px) scale(1.03); }
+	100% { transform: translateY(0) scale(1); }
+}
+
+/* Buttons */
+.btn-cta {
+	background: linear-gradient(90deg,var(--primary), #5d55ff);
+	color: white;
+	box-shadow: 0 8px 30px rgba(108,99,255,0.18);
+}
+
+.muted {
+	color: #6b7280;
+}
+
+/* small utility */
+.card-border { border: 1px solid rgba(15,23,42,0.04); }
+
+/* micro-interactions and animated accents */
+.card-hover {
+	transition: transform 280ms cubic-bezier(.2,.9,.2,1), box-shadow 280ms;
+}
+.card-hover:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 20px 50px rgba(16,24,40,0.12); }
+
+.shimmer {
+	position: relative; overflow: hidden;
+}
+.shimmer::after {
+	content: ""; position: absolute; left: -120%; top: 0; width: 60%; height: 100%;
+	background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+	transform: skewX(-18deg);
+	animation: shimmer 2.2s infinite;
+}
+@keyframes shimmer { 0% { left: -120% } 100% { left: 120% } }
+
+/* subtle bubble float for small elements */
+.float-slow { animation: float 7s ease-in-out infinite; }
+
+/* Floating card container safety */
+.floating-area { position: relative; width: 100%; height: 100%; max-height: 28rem; }
+.floating-area .card { position: absolute; }
+
+/* Ensure floating cards layout is clickable and doesn't overflow */
+.floating-row { display: flex; gap: 1rem; align-items: stretch; justify-content: flex-end; }
+.floating-row .w-56 { min-width: 13rem; }
+
+
+/* Animated gradient CTA */
+.btn-animated {
+	position: relative;
+	padding: 0.9rem 1.6rem;
+	border-radius: 1rem;
+	color: white;
+	font-weight: 700;
+	background: linear-gradient(90deg, rgba(108,99,255,1) 0%, rgba(255,107,138,0.95) 55%);
+	box-shadow: 0 12px 40px rgba(108,99,255,0.18), 0 6px 18px rgba(255,107,138,0.08);
+	overflow: hidden;
+}
+.btn-animated::before {
+	content: ""; position: absolute; inset: 0; z-index: 0; opacity: 0.25;
+	background: linear-gradient(120deg, rgba(255,255,255,0.18), rgba(255,255,255,0));
+	mix-blend-mode: overlay;
+}
+.btn-animated > * { position: relative; z-index: 1; }
+
+@keyframes gradientShift {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+.btn-animated.animated {
+	background-size: 200% 200%;
+	animation: gradientShift 6s ease infinite;
+}
+
+/* Neon outline */
+.neon-outline {
+	position: relative;
+}
+.neon-outline::after {
+	content: ""; position: absolute; inset: -2px; z-index: -1; border-radius: 1rem;
+	background: linear-gradient(90deg, rgba(108,99,255,0.35), rgba(255,107,138,0.25));
+	filter: blur(14px); opacity: 0.9;
+}
+
+/* improved shadow preset */
+.soft-elevate { box-shadow: 0 12px 30px rgba(16,24,40,0.08); }
+
+/* Accessibility: focus-visible for keyboard users */
+:focus-visible {
+	outline: 3px solid rgba(108,99,255,0.28);
+	outline-offset: 2px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+	.hero-blob { display: none; }
+	.glass-card { padding: 1rem; }
+	.btn-animated { padding: 0.7rem 1rem; border-radius: 0.75rem; }
+	.w-72 { width: 18rem; }
+}
+
+
+
