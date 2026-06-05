@@ -3,13 +3,16 @@ name: Security Scan
 on: [push, pull_request]
 
 jobs:
-  secret-scan:
+  security-checks:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Run Gitleaks (Secret Scanner)
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run npm audit (Code Vulnerability Scanner)
+        run: npm audit --audit-level=high
