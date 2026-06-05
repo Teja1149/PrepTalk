@@ -14,5 +14,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Run npm audit (Code Vulnerability Scanner)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Run npm audit (Dependency Vulnerability Scanner)
+        # We add "working-directory" to point to your specific project folder
+        working-directory: ./preptalk-ai
         run: npm audit --audit-level=high
